@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Vests Initiative - Event Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --secondary: #0ea5e9;
+            --light: #f6faf7;
+            --dark: #0b1f17;
+            --muted: #5f7b73;
+            --card-bg: #ffffff;
+            --border: #e3efe7;
+            --shadow: 0 10px 24px rgba(9,60,45,.10);
+            --radius: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .gvi-logo {
+            width: 70px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .organization {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* Countdown Styles */
+        .countdown-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .countdown-label {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .countdown-text {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-title i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+        
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-item {
+            margin-bottom: 15px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .detail-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #0284c7;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .activities-list, .risks-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .activities-list li, .risks-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .activities-list li:last-child, .risks-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .activities-list i, .risks-list i {
+            color: var(--primary);
+            margin-top: 3px;
+        }
+        
+        .contacts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .contacts-table th, .contacts-table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .contacts-table th {
+            font-weight: 600;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .action-buttons .btn {
+            flex: 1;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .countdown-container {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 15px auto;
+                max-width: 200px;
+            }
+            
+            .countdown-number {
+                font-size: 2rem;
+            }
+            
+            .event-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .contacts-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                padding: 20px 15px;
+            }
+            
+            .countdown-container {
+                padding: 10px;
+            }
+            
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="gvi-logo">GVI</div>
+            <div class="organization">Green Vests Initiative</div>
+            <h1>Community Clean-Up Event</h1>
+            <p class="subtitle">Kamwokya, Kisenyi II | October 18, 2025</p>
+            
+            <!-- Countdown Timer -->
+            <div class="countdown-container">
+                <div class="countdown-label">Days to go</div>
+                <div class="countdown-number" id="days-to-go">0</div>
+                <div class="countdown-text" id="countdown-text">until event</div>
+            </div>
+        </header>
+        
+        <!-- ========== EVENT DETAILS SECTION ========== -->
+        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-calendar-alt"></i>
+                <h2>Community Event Details</h2>
+            </div>
+            
+            <div class="event-details">
+                <div class="detail-item">
+                    <div class="detail-label">Date</div>
+                    <div class="detail-value">18/10/2025</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Location</div>
+                    <div class="detail-value">Kamwokya, Kisenyi II</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Type of Event</div>
+                    <div class="detail-value">Community Clean-Up</div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Directions</div>
+                    <a href="https://maps.google.com/?q=Kamwokya,Kisenyi+II" class="btn btn-outline" target="_blank">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Open in Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- ========== END EVENT DETAILS SECTION ========== -->
+        
+        <!-- ========== ACTIVITIES SECTION ========== -->
+        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-tasks"></i>
+                <h2>Activities to be Conducted</h2>
+            </div>
+            
+            <ul class="activities-list">
+                <li>
+                    <i class="fas fa-leaf"></i>
+                    <div>Community clean-up</div>
+                </li>
+                <li>
+                    <i class="fas fa-bullhorn"></i>
+                    <div>Mobilisation for Phaneroo Night of Prayer</div>
+                </li>
+            </ul>
+        </div>
+        <!-- ========== END ACTIVITIES SECTION ========== -->
+        
+        <!-- ========== RISKS & SAFETY SECTION ========== -->
+        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Risks and Safety</h2>
+            </div>
+            
+            <ul class="risks-list">
+                <li>
+                    <i class="fas fa-trash"></i>
+                    <div><strong>Don't compress rubbish:</strong> Avoid using your hands or feet to compress rubbish</div>
+                </li>
+                <li>
+                    <i class="fas fa-car"></i>
+                    <div><strong>Be traffic aware:</strong> Pause litter picking to allow vehicles and motorcycles to pass safely</div>
+                </li>
+                <li>
+                    <i class="fas fa-weight-hanging"></i>
+                    <div><strong>Lift safely:</strong> Don't overfill bags or lift heavy sacks alone</div>
+                </li>
+                <li>
+                    <i class="fas fa-hands-wash"></i>
+                    <div><strong>Clean hands:</strong> Wash hands before eating or drinking</div>
+                </li>
+                <li>
+                    <i class="fas fa-tshirt"></i>
+                    <div><strong>Dress properly:</strong> Wear sturdy shoes and weather appropriate clothing</div>
+                </li>
+                <li>
+                    <i class="fas fa-water"></i>
+                    <div><strong>Avoid hazardous areas:</strong> Stay clear of water, rocks or other unknown objects</div>
+                </li>
+            </ul>
+        </div>
+        <!-- ========== END RISKS & SAFETY SECTION ========== -->
+        
+        <!-- ========== CONTACTS SECTION ========== -->
+        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-address-book"></i>
+                <h2>Contact Persons</h2>
+            </div>
+            
+            <table class="contacts-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Suka Isaac</td>
+                        <td>Operations Lead</td>
+                        <td>+256 751 048 171</td>
+                    </tr>
+                    <tr>
+                        <td>Phillip Jjingo</td>
+                        <td>Field Lead</td>
+                        <td>+256 752 500 849</td>
+                    </tr>
+                    <tr>
+                        <td>Victor Brenda</td>
+                        <td>Communications Lead</td>
+                        <td>+256 753 238 901</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- ========== END CONTACTS SECTION ========== -->
+        
+        <!-- ========== ACTION BUTTONS ========== -->
+        <!-- UPDATE PHONE NUMBERS FOR EACH NEW EVENT -->
+        <div class="action-buttons">
+            <a href="tel:+256753238901" class="btn btn-primary">
+                <i class="fas fa-phone-alt"></i>
+                Call Comms Lead
+            </a>
+            <a href="https://wa.me/256753238901" class="btn btn-secondary" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                WhatsApp Comms Lead
+            </a>
+        </div>
+        <!-- ========== END ACTION BUTTONS ========== -->
+    </div>
+
+    <script>
+        // ========== COUNTDOWN CALCULATION ==========
+        // UPDATE THIS DATE FOR EACH NEW EVENT
+        function calculateDaysUntilEvent() {
+            // Set the event date (format: YYYY, MM-1, DD)
+            const eventDate = new Date(2025, 9, 18); // October 18, 2025 (Note: months are 0-indexed)
+            
+            // Get current date
+            const currentDate = new Date();
+            
+            // Calculate the difference in time (milliseconds)
+            const timeDifference = eventDate.getTime() - currentDate.getTime();
+            
+            // Convert milliseconds to days
+            const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            
+            return daysDifference;
+        }
+        
+        function updateCountdown() {
+            const daysToGo = calculateDaysUntilEvent();
+            const daysElement = document.getElementById('days-to-go');
+            const textElement = document.getElementById('countdown-text');
+            
+            if (daysToGo > 0) {
+                daysElement.textContent = daysToGo;
+                textElement.textContent = 'days until event';
+            } else if (daysToGo === 0) {
+                daysElement.textContent = '0';
+                textElement.textContent = 'Event is today!';
+            } else {
+                daysElement.textContent = Math.abs(daysToGo);
+                textElement.textContent = 'days since event';
+            }
+        }
+        
+        // Initialize countdown when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+        });
+        
+        // ========== END COUNTDOWN CALCULATION ==========
+    </script>
+</body>
+</html>
