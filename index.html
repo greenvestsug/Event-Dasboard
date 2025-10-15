@@ -212,6 +212,16 @@
             color: white;
         }
         
+        .btn-calendar {
+            background: #4285f4;
+            color: white;
+        }
+        
+        .btn-calendar:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+        }
+        
         .activities-list, .risks-list {
             list-style-type: none;
             padding-left: 0;
@@ -359,6 +369,14 @@
                     <a href="https://www.google.com/maps/place/0%C2%B020'52.3%22N+32%C2%B035'08.3%22E/@0.3478329,32.5848509,18z/data=!4m4!3m3!8m2!3d0.3478611!4d32.5856389?entry=ttu&g_ep=EgoyMDI1MTAxMi4wIKXMDSoASAFQAw%3D%3D" class="btn btn-outline" target="_blank">
                         <i class="fas fa-map-marker-alt"></i>
                         Open in Google Maps
+                    </a>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-label">Add to Calendar</div>
+                    <a href="#" class="btn btn-calendar" id="add-to-calendar">
+                        <i class="fas fa-calendar-plus"></i>
+                        Add to Calendar
                     </a>
                 </div>
             </div>
@@ -515,12 +533,103 @@
             }
         }
         
-        // Initialize countdown when page loads
+        // ========== CALENDAR INTEGRATION ==========
+        function generateCalendarLink() {
+            // Event details - UPDATE THESE FOR EACH NEW EVENT
+            const eventTitle = "Green Vests Initiative - Community Clean-Up Event";
+            const eventDescription = "Join us for a community clean-up event in Kamwokya, Kisenyi II. Activities include community clean-up and mobilisation for Phaneroo Night of Prayer.";
+            const eventLocation = "Kamwokya, Kisenyi II";
+            const startDate = "20251018T100000"; // YYYYMMDDTHHMMSS
+            const endDate = "20251018T140000";   // 4-hour event (10 AM - 2 PM)
+            
+            // Google Calendar URL
+            const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(eventDescription)}&location=${encodeURIComponent(eventLocation)}&sf=true&output=xml`;
+            
+            // iCalendar download (for other calendar apps)
+            const icsContent = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'BEGIN:VEVENT',
+                `SUMMARY:${eventTitle}`,
+                `DESCRIPTION:${eventDescription}`,
+                `LOCATION:${eventLocation}`,
+                `DTSTART:${startDate.replace(/[-:]/g, '')}`,
+                `DTEND:${endDate.replace(/[-:]/g, '')}`,
+                'BEGIN:VALARM',
+                'TRIGGER:-P14D', // 2 weeks before
+                'ACTION:DISPLAY',
+                'DESCRIPTION:Reminder - Event in 2 weeks',
+                'END:VALARM',
+                'BEGIN:VALARM',
+                'TRIGGER:-P7D', // 1 week before
+                'ACTION:DISPLAY',
+                'DESCRIPTION:Reminder - Event in 1 week',
+                'END:VALARM',
+                'BEGIN:VALARM',
+                'TRIGGER:-P3D', // 3 days before
+                'ACTION:DISPLAY',
+                'DESCRIPTION:Reminder - Event in 3 days',
+                'END:VALARM',
+                'BEGIN:VALARM',
+                'TRIGGER:-P1D', // 1 day before
+                'ACTION:DISPLAY',
+                'DESCRIPTION:Reminder - Event tomorrow',
+                'END:VALARM',
+                'BEGIN:VALARM',
+                'TRIGGER:-PT2H', // 2 hours before
+                'ACTION:DISPLAY',
+                'DESCRIPTION:Reminder - Event today at 10:00 AM',
+                'END:VALARM',
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\n');
+            
+            // Create and download ICS file
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const icsUrl = URL.createObjectURL(blob);
+            
+            return {
+                google: googleCalendarUrl,
+                ics: icsUrl
+            };
+        }
+        
+        function setupCalendarButton() {
+            const calendarButton = document.getElementById('add-to-calendar');
+            const calendarLinks = generateCalendarLink();
+            
+            calendarButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Detect if user is on mobile
+                const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                
+                if (isMobile) {
+                    // On mobile, offer both options
+                    if (confirm('Add to calendar? Choose Google Calendar or download for other calendar apps.')) {
+                        window.open(calendarLinks.google, '_blank');
+                    } else {
+                        const link = document.createElement('a');
+                        link.href = calendarLinks.ics;
+                        link.download = 'green-vests-event.ics';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                } else {
+                    // On desktop, open Google Calendar
+                    window.open(calendarLinks.google, '_blank');
+                }
+            });
+        }
+        
+        // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             updateCountdown();
+            setupCalendarButton();
         });
         
-        // ========== END COUNTDOWN CALCULATION ==========
+        // ========== END CALENDAR INTEGRATION ==========
     </script>
 </body>
 </html>
