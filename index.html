@@ -244,6 +244,36 @@
             margin-top: 3px;
         }
         
+        /* Provided Items Grid */
+        .provided-items-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .provided-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: #f8faf9;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .provided-item i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        
+        .provided-item span {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
         .contacts-table {
             width: 100%;
             border-collapse: collapse;
@@ -294,6 +324,11 @@
                 grid-template-columns: 1fr;
             }
             
+            .provided-items-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
             .action-buttons {
                 flex-direction: column;
             }
@@ -315,6 +350,14 @@
             
             .countdown-number {
                 font-size: 1.8rem;
+            }
+            
+            .provided-item {
+                padding: 15px;
+            }
+            
+            .provided-item i {
+                font-size: 2rem;
             }
         }
     </style>
@@ -404,6 +447,35 @@
         </div>
         <!-- ========== END ACTIVITIES SECTION ========== -->
         
+        <!-- ========== PROVIDED ITEMS SECTION ========== -->
+        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-star"></i>
+                <h2>Each participant will be provided with:</h2>
+            </div>
+            
+            <div class="provided-items-grid">
+                <div class="provided-item">
+                    <i class="fas fa-vest"></i>
+                    <span>Reflector jacket</span>
+                </div>
+                <div class="provided-item">
+                    <i class="fas fa-hands"></i>
+                    <span>Gloves</span>
+                </div>
+                <div class="provided-item">
+                    <i class="fas fa-trash-alt"></i>
+                    <span>Bin bags</span>
+                </div>
+                <div class="provided-item">
+                    <i class="fas fa-head-side-mask"></i>
+                    <span>Face mask</span>
+                </div>
+            </div>
+        </div>
+        <!-- ========== END PROVIDED ITEMS SECTION ========== -->
+        
         <!-- ========== RISKS & SAFETY SECTION ========== -->
         <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
         <div class="card">
@@ -465,7 +537,7 @@
                     <tr>
                         <td>Suka Isaac</td>
                         <td>Operations Lead</td>
-                        <td>+256 751 048 171</td>
+                        <td>+256 760 613 210</td>
                     </tr>
                     <tr>
                         <td>Phillip Jjingo</td>
