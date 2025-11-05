@@ -7,15 +7,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
-            --secondary: #0ea5e9;
-            --light: #f6faf7;
-            --dark: #0b1f17;
-            --muted: #5f7b73;
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary: #ec4899;
+            --light: #faf5ff;
+            --dark: #1e1b4b;
+            --muted: #6d6b80;
             --card-bg: #ffffff;
-            --border: #e3efe7;
-            --shadow: 0 10px 24px rgba(9,60,45,.10);
+            --border: #e9d5ff;
+            --shadow: 0 10px 24px rgba(139, 92, 246, 0.15);
             --radius: 16px;
         }
         
@@ -186,7 +186,7 @@
             color: white;
         }
         
-        .btn-primary:hover {
+        .btn-primary:hover, .btn-primary:focus {
             background: var(--primary-dark);
             transform: translateY(-2px);
         }
@@ -196,8 +196,8 @@
             color: white;
         }
         
-        .btn-secondary:hover {
-            background: #0284c7;
+        .btn-secondary:hover, .btn-secondary:focus {
+            background: #db2777;
             transform: translateY(-2px);
         }
         
@@ -207,18 +207,18 @@
             border: 2px solid var(--primary);
         }
         
-        .btn-outline:hover {
+        .btn-outline:hover, .btn-outline:focus {
             background: var(--primary);
             color: white;
         }
         
         .btn-calendar {
-            background: #4285f4;
+            background: #8b5cf6;
             color: white;
         }
         
-        .btn-calendar:hover {
-            background: #3367d6;
+        .btn-calendar:hover, .btn-calendar:focus {
+            background: #7c3aed;
             transform: translateY(-2px);
         }
         
@@ -258,7 +258,7 @@
             align-items: center;
             text-align: center;
             padding: 20px;
-            background: #f8faf9;
+            background: #faf5ff;
             border-radius: 12px;
             border: 1px solid var(--border);
         }
@@ -303,6 +303,43 @@
             text-align: center;
         }
         
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover, .back-to-top:focus {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        /* Loading state */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -337,6 +374,11 @@
                 display: block;
                 overflow-x: auto;
             }
+            
+            .back-to-top {
+                bottom: 10px;
+                right: 10px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -360,36 +402,41 @@
                 font-size: 2rem;
             }
         }
+        
+        /* Focus styles for accessibility */
+        .btn:focus, a:focus {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="gvi-logo">GVI</div>
+            <div class="gvi-logo" aria-label="Green Vests Initiative Logo">GVI</div>
             <div class="organization">Green Vests Initiative</div>
             <h1>Community Clean-Up Event</h1>
-            <p class="subtitle">Kamwokya, Kisenyi II | October 18, 2025 | 10:00 AM</p>
+            <p class="subtitle">Kamwokya, Kisenyi II | December 30, 2025 | 10:00 AM</p>
             
             <!-- Countdown Timer -->
             <div class="countdown-container">
                 <div class="countdown-label">Days to go</div>
-                <div class="countdown-number" id="days-to-go">0</div>
+                <div class="countdown-number" id="days-to-go" aria-live="polite">0</div>
                 <div class="countdown-text" id="countdown-text">until event</div>
             </div>
         </header>
         
         <!-- ========== EVENT DETAILS SECTION ========== -->
-        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
         <div class="card">
             <div class="card-title">
-                <i class="fas fa-calendar-alt"></i>
+                <i class="fas fa-calendar-alt" aria-hidden="true"></i>
                 <h2>Community Event Details</h2>
             </div>
             
             <div class="event-details">
                 <div class="detail-item">
                     <div class="detail-label">Date</div>
-                    <div class="detail-value">18/10/2025</div>
+                    <div class="detail-value">30/12/2025</div>
                 </div>
                 
                 <div class="detail-item">
@@ -409,8 +456,8 @@
                 
                 <div class="detail-item">
                     <div class="detail-label">Directions</div>
-                    <a href="https://www.google.com/maps/place/0%C2%B020'52.3%22N+32%C2%B035'08.3%22E/@0.3478329,32.5848509,18z/data=!4m4!3m3!8m2!3d0.3478611!4d32.5856389?entry=ttu&g_ep=EgoyMDI1MTAxMi4wIKXMDSoASAFQAw%3D%3D" class="btn btn-outline" target="_blank">
-                        <i class="fas fa-map-marker-alt"></i>
+                    <a href="https://www.google.com/maps/place/0%C2%B020'52.3%22N+32%C2%B035'08.3%22E/@0.3478329,32.5848509,18z/data=!4m4!3m3!8m2!3d0.3478611!4d32.5856389?entry=ttu&g_ep=EgoyMDI1MTAxMi4wIKXMDSoASAFQAw%3D%3D" class="btn btn-outline" target="_blank" rel="noopener">
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                         Open in Google Maps
                     </a>
                 </div>
@@ -418,7 +465,7 @@
                 <div class="detail-item">
                     <div class="detail-label">Add to Calendar</div>
                     <a href="#" class="btn btn-calendar" id="add-to-calendar">
-                        <i class="fas fa-calendar-plus"></i>
+                        <i class="fas fa-calendar-plus" aria-hidden="true"></i>
                         Add to Calendar
                     </a>
                 </div>
@@ -427,20 +474,19 @@
         <!-- ========== END EVENT DETAILS SECTION ========== -->
         
         <!-- ========== ACTIVITIES SECTION ========== -->
-        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
         <div class="card">
             <div class="card-title">
-                <i class="fas fa-tasks"></i>
+                <i class="fas fa-tasks" aria-hidden="true"></i>
                 <h2>Activities to be Conducted</h2>
             </div>
             
             <ul class="activities-list">
                 <li>
-                    <i class="fas fa-leaf"></i>
+                    <i class="fas fa-leaf" aria-hidden="true"></i>
                     <div>Community clean-up</div>
                 </li>
                 <li>
-                    <i class="fas fa-bullhorn"></i>
+                    <i class="fas fa-bullhorn" aria-hidden="true"></i>
                     <div>Mobilisation for Phaneroo Night of Prayer</div>
                 </li>
             </ul>
@@ -448,28 +494,27 @@
         <!-- ========== END ACTIVITIES SECTION ========== -->
         
         <!-- ========== PROVIDED ITEMS SECTION ========== -->
-        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
         <div class="card">
             <div class="card-title">
-                <i class="fas fa-star"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
                 <h2>Each participant will be provided with:</h2>
             </div>
             
             <div class="provided-items-grid">
                 <div class="provided-item">
-                    <i class="fas fa-vest"></i>
+                    <i class="fas fa-vest" aria-hidden="true"></i>
                     <span>Reflector jacket</span>
                 </div>
                 <div class="provided-item">
-                    <i class="fas fa-hands"></i>
+                    <i class="fas fa-hands" aria-hidden="true"></i>
                     <span>Gloves</span>
                 </div>
                 <div class="provided-item">
-                    <i class="fas fa-trash-alt"></i>
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
                     <span>Bin bags</span>
                 </div>
                 <div class="provided-item">
-                    <i class="fas fa-head-side-mask"></i>
+                    <i class="fas fa-head-side-mask" aria-hidden="true"></i>
                     <span>Face mask</span>
                 </div>
             </div>
@@ -477,40 +522,39 @@
         <!-- ========== END PROVIDED ITEMS SECTION ========== -->
         
         <!-- ========== RISKS & SAFETY SECTION ========== -->
-        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
         <div class="card">
             <div class="card-title">
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
                 <h2>Risks and Safety</h2>
             </div>
             
             <ul class="risks-list">
                 <li>
-                    <i class="fas fa-hands"></i>
+                    <i class="fas fa-hands" aria-hidden="true"></i>
                     <div><strong>Always wear gloves:</strong> Wear gloves when picking rubbish to protect your hands</div>
                 </li>
                 <li>
-                    <i class="fas fa-trash"></i>
+                    <i class="fas fa-trash" aria-hidden="true"></i>
                     <div><strong>Don't compress rubbish:</strong> Avoid using your hands or feet to compress rubbish</div>
                 </li>
                 <li>
-                    <i class="fas fa-car"></i>
+                    <i class="fas fa-car" aria-hidden="true"></i>
                     <div><strong>Be traffic aware:</strong> Pause litter picking to allow vehicles and motorcycles to pass safely</div>
                 </li>
                 <li>
-                    <i class="fas fa-weight-hanging"></i>
+                    <i class="fas fa-weight-hanging" aria-hidden="true"></i>
                     <div><strong>Lift safely:</strong> Don't overfill bags or lift heavy sacks alone</div>
                 </li>
                 <li>
-                    <i class="fas fa-hands-wash"></i>
+                    <i class="fas fa-hands-wash" aria-hidden="true"></i>
                     <div><strong>Clean hands:</strong> Wash hands before eating or drinking</div>
                 </li>
                 <li>
-                    <i class="fas fa-tshirt"></i>
+                    <i class="fas fa-tshirt" aria-hidden="true"></i>
                     <div><strong>Dress properly:</strong> Wear sturdy shoes and weather appropriate clothing</div>
                 </li>
                 <li>
-                    <i class="fas fa-water"></i>
+                    <i class="fas fa-water" aria-hidden="true"></i>
                     <div><strong>Avoid hazardous areas:</strong> Stay clear of water, rocks or other unknown objects</div>
                 </li>
             </ul>
@@ -518,10 +562,9 @@
         <!-- ========== END RISKS & SAFETY SECTION ========== -->
         
         <!-- ========== CONTACTS SECTION ========== -->
-        <!-- EDIT THIS SECTION FOR EACH NEW EVENT -->
         <div class="card">
             <div class="card-title">
-                <i class="fas fa-address-book"></i>
+                <i class="fas fa-address-book" aria-hidden="true"></i>
                 <h2>Contact Persons</h2>
             </div>
             
@@ -555,26 +598,29 @@
         <!-- ========== END CONTACTS SECTION ========== -->
         
         <!-- ========== ACTION BUTTONS ========== -->
-        <!-- UPDATE PHONE NUMBERS FOR EACH NEW EVENT -->
         <div class="action-buttons">
             <a href="tel:+256753238901" class="btn btn-primary">
-                <i class="fas fa-phone-alt"></i>
+                <i class="fas fa-phone-alt" aria-hidden="true"></i>
                 Call Comms Lead
             </a>
-            <a href="https://wa.me/256753238901" class="btn btn-secondary" target="_blank">
-                <i class="fab fa-whatsapp"></i>
+            <a href="https://wa.me/256753238901" class="btn btn-secondary" target="_blank" rel="noopener">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
                 WhatsApp Comms Lead
             </a>
         </div>
         <!-- ========== END ACTION BUTTONS ========== -->
     </div>
 
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </a>
+
     <script>
         // ========== COUNTDOWN CALCULATION ==========
-        // UPDATE THIS DATE FOR EACH NEW EVENT
         function calculateDaysUntilEvent() {
             // Set the event date (format: YYYY, MM-1, DD)
-            const eventDate = new Date(2025, 9, 18); // October 18, 2025 (Note: months are 0-indexed)
+            const eventDate = new Date(2025, 11, 30); // December 30, 2025 (Note: months are 0-indexed)
             
             // Get current date
             const currentDate = new Date();
@@ -607,12 +653,12 @@
         
         // ========== CALENDAR INTEGRATION ==========
         function generateCalendarLink() {
-            // Event details - UPDATE THESE FOR EACH NEW EVENT
+            // Event details
             const eventTitle = "Green Vests Initiative - Community Clean-Up Event";
             const eventDescription = "Join us for a community clean-up event in Kamwokya, Kisenyi II. Activities include community clean-up and mobilisation for Phaneroo Night of Prayer.";
             const eventLocation = "Kamwokya, Kisenyi II";
-            const startDate = "20251018T100000"; // YYYYMMDDTHHMMSS - 10:00 AM
-            const endDate = "20251018T130000";   // 1:00 PM (3-hour event: 10 AM - 1 PM)
+            const startDate = "20251230T100000"; // YYYYMMDDTHHMMSS - 10:00 AM
+            const endDate = "20251230T130000";   // 1:00 PM (3-hour event: 10 AM - 1 PM)
             
             // Google Calendar URL
             const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(eventDescription)}&location=${encodeURIComponent(eventLocation)}&sf=true&output=xml`;
@@ -673,25 +719,56 @@
             calendarButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 
+                // Show loading state
+                calendarButton.classList.add('loading');
+                calendarButton.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Adding...';
+                
                 // Detect if user is on mobile
                 const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
                 
-                if (isMobile) {
-                    // On mobile, offer both options
-                    if (confirm('Add to calendar? Choose Google Calendar or download for other calendar apps.')) {
-                        window.open(calendarLinks.google, '_blank');
+                setTimeout(() => {
+                    if (isMobile) {
+                        // On mobile, offer both options
+                        if (confirm('Add to calendar? Choose Google Calendar or download for other calendar apps.')) {
+                            window.open(calendarLinks.google, '_blank');
+                        } else {
+                            const link = document.createElement('a');
+                            link.href = calendarLinks.ics;
+                            link.download = 'green-vests-event.ics';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        }
                     } else {
-                        const link = document.createElement('a');
-                        link.href = calendarLinks.ics;
-                        link.download = 'green-vests-event.ics';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
+                        // On desktop, open Google Calendar
+                        window.open(calendarLinks.google, '_blank');
                     }
+                    
+                    // Reset button state
+                    calendarButton.classList.remove('loading');
+                    calendarButton.innerHTML = '<i class="fas fa-calendar-plus" aria-hidden="true"></i> Add to Calendar';
+                }, 500);
+            });
+        }
+        
+        // ========== BACK TO TOP FUNCTIONALITY ==========
+        function setupBackToTop() {
+            const backToTopButton = document.querySelector('.back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
                 } else {
-                    // On desktop, open Google Calendar
-                    window.open(calendarLinks.google, '_blank');
+                    backToTopButton.classList.remove('visible');
                 }
+            });
+            
+            backToTopButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
         }
         
@@ -699,9 +776,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateCountdown();
             setupCalendarButton();
+            setupBackToTop();
+            
+            // Update countdown every hour
+            setInterval(updateCountdown, 60 * 60 * 1000);
         });
-        
-        // ========== END CALENDAR INTEGRATION ==========
     </script>
 </body>
 </html>
